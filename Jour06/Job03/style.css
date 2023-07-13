@@ -1,0 +1,21 @@
+.section {
+    background-color: #88c1d0;
+}
+
+@media (min-width: 1280px) and (max-width: 1680px) {
+    .section:nth-child(2n) {
+        background-color: #275fa0;
+    }
+}
+
+@media (min-width: 1680px) and (max-width: 1920px) {
+    .section:nth-child(2n) {
+        background-color: #ffca4b;
+    }
+}
+
+@media (max-width: 1280px) {
+    .section:nth-child(2n) {
+        background-color: #ffffff;
+    }
+}
