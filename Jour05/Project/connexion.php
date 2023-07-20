@@ -61,11 +61,11 @@ if(isset($_POST['submit'])) {
 </head>
 <body>
 <div class="content">
-    <header>
+        <header>
         <h1>Connexion</h1>
     </header>
     <main>
-
+        <h2>Entrez vos informations de connexion :</h2>
         <form method="POST" action="connexion.php">
             <input type="email" name="mail" placeholder="Mail" />
             <input type="password" name="password" placeholder="Mot de passe" />

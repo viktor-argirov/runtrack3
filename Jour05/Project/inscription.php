@@ -4,15 +4,15 @@ $bdd = new PDO('mysql:host=localhost;dbname=utilisateurs;charset=utf8', 'root', 
 
 
 if(isset($_POST['submit'])){
-    if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['password'])){
-        $mail = $_POST['nom'];
+    if(isset($_POST['mail']) && isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['password'])){
+        $mail = $_POST['mail'];
         $prenom = $_POST['prenom'];
-        $nom = $_POST['mail'];
+        $nom = $_POST['nom'];
         $password = $_POST['password'];
 
-        $sql = "INSERT INTO utilisateurs (nom, prenom, mail, password) VALUES (?, ?, ?, ?);";
+        $sql = "INSERT INTO utilisateurs (mail, prenom, nom, password) VALUES (?, ?, ?, ?);";
         $stmt = $bdd->prepare($sql);
-        $stmt->execute([$nom, $prenom, $mail, $password]);
+        $stmt->execute([$mail, $prenom, $nom, $password]);
         header("Location: connexion.php");
         exit();
 
@@ -102,59 +102,35 @@ if(isset($_POST['submit'])){
     </style>
 </head>
 <body>
-    <?php
-    // Vérifier si l'utilisateur est connecté
-    $utilisateurConnecte = false; // Remplacez ceci par votre propre logique de vérification
-
-    if ($utilisateurConnecte) {
-        // Utilisateur connecté
-        $prenom = "John"; // Remplacez ceci par le prénom de l'utilisateur connecté
-        echo "<p>Bonjour $prenom</p>";
-    } else {
-        // Utilisateur non connecté
-        echo "<a href='inscription.php'>Inscription</a> | <a href='connexion.php'>Connexion</a>";
-    }
-    ?>
     
     <h1>Page d'accueil</h1>
 
     <div class="container">
-        <h2>Inscription</h2>
-        <form action="inscription.php" method="POST" onsubmit="validerInscription()">
-            <div class="form-group">
-                <label for="prenom">Prénom:</label>
-                <input type="text" id="prenom" name="prenom">
-                <span id="erreurPrenom" class="error-message"></span>
-            </div>
+    <main>
+        <h2>Remplissez le formulaire d'inscription :</h2>
+        <form method="POST" action="inscription.php">
 
-            <div class="form-group">
-                <label for="nom">Nom:</label>
-                <input type="text" id="nom" name="nom">
-                <span id="erreurNom" class="error-message"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="mail">Email:</label>
-                <input type="mail" id="mail" name="mail">
-                <span id="erreurEmail" class="error-message"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Mot de passe:</label>
-                <input type="password" id="password" name="password">
-                <span id="erreurMotDePasse" class="error-message"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="confirmationMotDePasse">Confirmer le mot de passe:</label>
-                <input type="password" id="password" name="password">
-                <span id="erreurConfirmationMotDePasse" class="error-message"></span>
-            </div>
-
-            <div class="form-group button-container">
-                <button type="submit">Inscription</button>
-            </div>
-        </form>
+      <p>
+      <label for="mail">Mail </label>
+      <input type="text" name="mail" id="mail">
+      </p>
+      <p>
+      <label for="prenom">Prenom </label>
+      <input type="text" name="prenom" id="prenom">
+      </p>
+      <p>
+      <label for="nom">Nom</label>
+      <input type="text" name="nom" id="nom">
+      </p>
+      <p>
+      <label for="password">Password</label>
+      <input type="text" name="password" id="password">
+      </p>
+      <p>
+      <input type="submit" name="submit" id="submit" value="Submit">
+      </p>
+    </form>
+    </main>
     </div>
 </body>
 </html>
