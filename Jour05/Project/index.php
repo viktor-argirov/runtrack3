@@ -53,7 +53,7 @@
 <body>
 <div class="content">
     <header>
-        <h1>Bienvenue</h1>
+        <h1>Bienvenue!</h1>
     </header>
     <main>
         <h2>Bienvenue!</h2>
