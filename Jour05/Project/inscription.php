@@ -1,32 +1,7 @@
-<?php
-
-$bdd = new PDO('mysql:host=localhost;dbname=utilisateurs;charset=utf8', 'root', '123456789'); //Database connexion`
-
-
-if(isset($_POST['submit'])){
-    if(isset($_POST['mail']) && isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['password'])){
-        $mail = $_POST['mail'];
-        $prenom = $_POST['prenom'];
-        $nom = $_POST['nom'];
-        $password = $_POST['password'];
-
-        $sql = "INSERT INTO utilisateurs (mail, prenom, nom, password) VALUES (?, ?, ?, ?);";
-        $stmt = $bdd->prepare($sql);
-        $stmt->execute([$mail, $prenom, $nom, $password]);
-        header("Location: connexion.php");
-        exit();
-
-    } else {
-        echo "Tous les champs ne sont pas remplis.";
-    }
-}
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Incsription</title>
-    <script src="script.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -108,29 +83,20 @@ if(isset($_POST['submit'])){
     <div class="container">
     <main>
         <h2>Remplissez le formulaire d'inscription :</h2>
-        <form method="POST" action="inscription.php">
+        <input type="text" placeholder="saisissez votre nom" id="nom"></br></br>
+<input type="text" placeholder="saisissez votre prénom" id="prenom"></br></br>
+<input type="email" placeholder="saisissez votre email" id="email"></br></br>
+<p id="email_erreur"></p>
 
-      <p>
-      <label for="mail">Mail </label>
-      <input type="text" name="mail" id="mail">
-      </p>
-      <p>
-      <label for="prenom">Prenom </label>
-      <input type="text" name="prenom" id="prenom">
-      </p>
-      <p>
-      <label for="nom">Nom</label>
-      <input type="text" name="nom" id="nom">
-      </p>
-      <p>
-      <label for="password">Password</label>
-      <input type="text" name="password" id="password">
-      </p>
-      <p>
-      <input type="submit" name="submit" id="submit" value="Submit">
-      </p>
-    </form>
+<input type="password" placeholder="saisissez votre mot de passe" id="mdp"></br>
+<input type="password" placeholder="confirmez votre mot de passe" id="confirm_mdp">
+<p id="erreur_mdp"></p>
+<p id="champs_erreur"></p>
+<button id="button">envoyer</button>
+
     </main>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src='script.js'></script>
 </body>
 </html>

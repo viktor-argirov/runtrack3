@@ -1,52 +1,163 @@
-function validerInscription() {
-    // Récupérer les valeurs des champs de formulaire
-    var prenom = document.getElementById('prenom').value;
-    var nom = document.getElementById('nom').value;
-    var email = document.getElementById('mail').value;
-    var motDePasse = document.getElementById('password').value;
-    var confirmationMotDePasse = document.getElementById('confirmationpassword').value;
+$('#s_inscrire').click(function(){
 
-    // Réinitialiser les messages d'erreur
-    document.getElementById('erreurprenom').innerHTML = "";
-    document.getElementById('erreurnom').innerHTML = "";
-    document.getElementById('erreurmail').innerHTML = "";
-    document.getElementById('erreurpassword').innerHTML = "";
-    document.getElementById('erreurConfirmationpassword').innerHTML = "";
+    $.ajax({
+  
+      url: "inscription.php",
+      type: "POST",
+      dataType: "text",
+    
+      success : function(data){
+        $('main').empty();
+        $('main').append(data)
+      }
+    })
+  
+  })
+  
+  $('#se_connecter').click(function(){
+  
+    $.ajax({
+  
+      url: "connexion.php",
+      type: "POST",
+      dataType: "text",
+    
+      success : function(data){
+        $('main').empty();
+        $('main').append(data)
+      }
+    })
+  
+  })
+  
 
-    // Effectuer les vérifications
-    var erreurs = false;
-
-    if (prenom.trim() === "") {
-        document.getElementById('erreurprenom').innerHTML = "Veuillez entrer votre prénom";
-        erreurs = true;
+  $("#button").click(function(){
+  
+  
+    var nom = $('#nom').val()
+    var prenom = $('#prenom').val()
+    var email = $('#email').val()
+    var mdp = $('#mdp').val()
+    var confirm_mdp = $('#confirm_mdp').val()
+  
+    var repere_inscription = 1
+    
+  
+  $.ajax({
+  
+    url: "controller.php",
+  
+    data : {nom,prenom,email,mdp,confirm_mdp,repere_inscription },     
+  
+    type: "POST",
+    dataType: "text",
+  
+  
+    success : function(data){ 
+  
+      console.log(data);
+  
+      $("#champs_erreur, #email_erreur, #erreur_mdp").empty();
+  
+      if( data == 'tous les champs doivent être remplis')
+      {  
+            $("#champs_erreur").append(data);
+            return;
+        }
+      if( data == 'email déjà utilisé' || data == 'format email no valide')
+        {  
+            $("#email_erreur").append(data);
+            return;
+        }
+      if( data == 'les mots de passe doivent être identiques' || data == 'le mot de passe doit contenir au moins 8 caractères, un chiffre, une majuscule et un caractère spécial' )
+        {  
+            $("#erreur_mdp").append(data);
+            return;
+        }
+       
+        // window.location.href = "connexion.php";
+  
+        $.ajax({
+  
+          url: "connexion.php",
+          type: "POST",
+          dataType: "text",
+          success : function(data){ 
+  
+  
+            
+            $('main').empty();
+            $('main').append(data)
+          }
+        })
+        
     }
-
-    if (nom.trim() === "") {
-        document.getElementById('erreurnom').innerHTML = "Veuillez entrer votre nom";
-        erreurs = true;
-    }
-
-    // Vérifier le format de l'email (utilisation d'une expression régulière simplifiée)
-    var emailRegex = /^\S+@\S+\.\S+$/;
-    if (!emailRegex.test(email)) {
-        document.getElementById('erreurmail').innerHTML = "Veuillez entrer une adresse email valide";
-        erreurs = true;
-    }
-
-    // Vérifier que le mot de passe est suffisamment complexe (au moins 6 caractères)
-    if (motDePasse.length < 6) {
-        document.getElementById('erreurpassword').innerHTML = "Le mot de passe doit contenir au moins 6 caractères";
-        erreurs = true;
-    }
-
-    // Vérifier que le mot de passe et sa confirmation sont identiques
-    if (motDePasse !== confirmationMotDePasse) {
-        document.getElementById('erreurConfirmationpassword').innerHTML = "Les mots de passe ne correspondent pas";
-        erreurs = true;
-    }
-
-    // Si des erreurs sont détectées, empêcher la soumission du formulaire
-    if (erreurs) {
-        event.preventDefault();
-    }
-}
+  
+  })
+  
+  })
+  
+  
+  $('#button_connexion').click(function(){
+  
+    var email_connexion = $('#email_connexion').val()
+    var mdp_connexion = $('#mdp_connexion').val()
+    var repere_connexion = 1
+  
+    $.ajax({
+  
+      url: "controller.php",
+      data : {email_connexion,mdp_connexion,repere_connexion},     
+      type: "POST",
+      dataType: "text",
+  
+      success : function(data){
+  
+        $("#email_erreur_connexion, #erreur_mdp_connexion").empty();
+  
+        if( data == 'veuillez remplir tous les champs')
+        {  
+              $("#champs_erreur").append(data);
+              return;
+          }
+  
+        if( data == 'erreur d\'email ou de mot de passe')
+        {  
+              $("#champs_erreur").append(data);
+              return;
+          }
+          
+        if( data == 'connexion validee')
+          {  
+            $.ajax({
+  
+              url: "index.php",
+              type: "POST",
+              dataType: "text",
+              success : function(data){ 
+      
+      
+                
+                $('main').empty();
+                $('main').append(data)
+              }
+            })
+            }
+  
+  
+  
+        $('main').empty();
+        $('main').append(data)
+  
+      }
+  
+    })
+  
+  
+  
+  
+  
+  
+  
+  
+  })

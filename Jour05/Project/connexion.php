@@ -1,36 +1,3 @@
-<?php
-session_start();
-
-$bdd = new PDO('mysql:host=localhost;dbname=utilisateurs;charset=utf8', 'root', '123456789'); //Database connexion`
-
-if(isset($_POST['submit'])) {
-    if(isset($_POST['mail']) && isset($_POST['password'])) {
-        $mail = $_POST['mail'];
-        $password = $_POST['password'];
-
-
-        if (isset($_POST['mail']) && isset($_POST['password']) == 'admin') {
-            $_SESSION['admin'] = 'admin';
-            header("Location: admin.php");
-            }
-        $requser = $bdd->prepare("SELECT * FROM utilisateurs WHERE mail = ? AND password = ?");
-        $requser->execute(array($mail, $password));
-        $userexist = $requser->rowCount();
-
-        if($userexist == 1) {
-            $userinfo = $requser->fetch();
-            $_SESSION['id'] = $userinfo['id'];
-            $_SESSION['mail'] = $userinfo['mail'];
-            $_SESSION['password'] = $userinfo['password'];
-            header("Location: profil.php?id=".$_SESSION['id']);
-            exit();
-        } else {
-            $error = "Identifiant ou mot de passe incorrect.";
-        }
-    }
-}
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,16 +33,17 @@ if(isset($_POST['submit'])) {
     </header>
     <main>
         <h2>Entrez vos informations de connexion :</h2>
-        <form method="POST" action="connexion.php">
-            <input type="email" name="mail" placeholder="Mail" />
-            <input type="password" name="password" placeholder="Mot de passe" />
-            <br /><br />
-           <a href="profil.php"><input type="submit" name="submit" value="Se connecter !" /></a> 
-         </form>
-         <?php
-         if(isset($erreur)) {
-            echo '<font color="red">'.$erreur."</font>";
-         }
-         ?>
+        
+<input type="text" placeholder="saisissez votre email" id="email_connexion"></br></br>
+
+
+<input type="password" placeholder="saisissez votre mot de passe" id="mdp_connexion"></br>
+
+
+<p id="champs_erreur"></p>
+
+<button id="button_connexion">envoyer</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src='script.js'></script>
 </body>
 </html>
